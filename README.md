@@ -4,11 +4,8 @@ A Horizontal/Vertical Segmented Control With Fully Autolayout Supported.
 ##Usage:
 
          let doSomething:(Int) -> Void = {
-
             num in
-
             print("clicked:\(num)")
-
          }
 
          let segment = SlideSegmentSelector.init(singlePage: true, length: 180, direction: .horizontal,do: doSomething)
