@@ -1,5 +1,5 @@
 # SlideSegment
-A Horizontal/Vertical Segmented Control With Full Autolayout Support.
+A Horizontal/Vertical Segmented Control With Fully Autolayout Supported.
 
 ##Usage:
 
