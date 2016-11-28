@@ -13,7 +13,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
+        let doSomething:(Int) -> Void = {
+            num in
+            print("clicked:\(num)")
+        }
         
         let segment1 = SlideSegmentSelector.init(singlePage: true,  length: 180, direction: .horizontal,do: doSomething)
         segment1.backgroundColor = .lightGray
