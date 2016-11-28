@@ -14,7 +14,7 @@ A Horizontal/Vertical Segmented Control With Fully Autolayout Supported.
 
          singlePage: Put all segment in one screen.
 
-         length:Width/Height for every segment.
+         length:Width/Height for every segment(Only effected if SinglePage disabled).
 
          direction: .horizontal / .vertical
 
