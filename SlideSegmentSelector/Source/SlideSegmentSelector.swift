@@ -18,9 +18,12 @@ class SlideSegmentSelector: UIView {
     var direction:LayoutDirection = .horizontal
     var allInSinglePage = true
     var segmentLength:CGFloat?
+    var withAnimate = true
     
     typealias intClosure = (Int) -> Void
     var doSomething:intClosure?
+    
+    var buttonBottomLine = UIView()
     
     var titleArray = Array<String>() {
         didSet {
@@ -33,16 +36,42 @@ class SlideSegmentSelector: UIView {
             if doSomething != nil {
                 doSomething!(currentSegment)
             }
-            for button in btnArray {
-                if button.index == currentSegment {
-                    button.bottomLine.alpha = 1
+            if currentSegment == oldValue {
+                return
+            }
+            
+            if withAnimate {
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.buttonBottomLine.snp.remakeConstraints { (make) in
+                        make.height.equalTo(2.5)
+                        make.bottom.equalTo(self.btnArray[self.currentSegment])
+                        make.left.equalTo(self.btnArray[self.currentSegment])
+                        make.right.equalTo(self.btnArray[self.currentSegment])
+                    }
+                    self.layoutIfNeeded()
+                })
+            } else {
+                self.buttonBottomLine.snp.remakeConstraints { (make) in
+                    make.height.equalTo(2.5)
+                    make.bottom.equalTo(self.btnArray[self.currentSegment])
+                    make.left.equalTo(self.btnArray[self.currentSegment])
+                    make.right.equalTo(self.btnArray[self.currentSegment])
+                }
+            }
+            
+            
+            for button in self.btnArray {
+                if button.index == self.currentSegment {
+                    //                        button.bottomLine.alpha = 0
                     button.lblTitle.textColor = .yellow
                 } else {
-                    button.bottomLine.alpha = 0
+                    //                        button.bottomLine.alpha = 0
                     button.lblTitle.textColor = .gray
                 }
                 
             }
+            
+            
         }
     }
     
@@ -50,11 +79,13 @@ class SlideSegmentSelector: UIView {
     private let bottomLine = UIView()
     private var btnArray = Array<CustomSegmentButton>()
     
-    init(singlePage:Bool,length:CGFloat?,direction:LayoutDirection,do:intClosure?) {
+    init(singlePage:Bool,length:CGFloat?,withAnimate:Bool,direction:LayoutDirection,doClosure:intClosure?) {
         super.init(frame: CGRect.zero)
+        self.withAnimate = withAnimate
         self.allInSinglePage = singlePage
         segmentLength = length
         self.direction = direction
+        self.doSomething = doClosure
         addSubview(scrollView)
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
@@ -63,7 +94,10 @@ class SlideSegmentSelector: UIView {
         }
         
         bottomLine.backgroundColor = .gray
+        addSubview(buttonBottomLine)
+        buttonBottomLine.backgroundColor = .yellow
         addSubview(bottomLine)
+        
         bottomLine.snp.makeConstraints { (make) in
             make.height.equalTo(0.5)
             make.left.equalToSuperview()
@@ -110,8 +144,14 @@ class SlideSegmentSelector: UIView {
                             make.width.equalTo(length)
                         }
                     })
+                    buttonBottomLine.snp.makeConstraints { (make) in
+                        make.height.equalTo(2.5)
+                        make.bottom.equalTo(btn)
+                        make.left.equalTo(btn)
+                        make.right.equalTo(btn)
+                    }
                 }else if index < titleArray.count - 1 {
-                    btn.bottomLine.alpha = 0
+                    //                    btn.bottomLine.alpha = 0
                     btn.snp.makeConstraints({ (make) in
                         make.left.equalTo((btnArray.last?.snp.right)!)
                         make.height.equalToSuperview()
@@ -124,7 +164,7 @@ class SlideSegmentSelector: UIView {
                         
                     })
                 } else {
-                    btn.bottomLine.alpha = 0
+                    //                    btn.bottomLine.alpha = 0
                     btn.snp.makeConstraints({ (make) in
                         make.left.equalTo((btnArray.last?.snp.right)!)
                         make.height.equalToSuperview()
@@ -162,9 +202,15 @@ class SlideSegmentSelector: UIView {
                         } else {
                             make.height.equalTo(length)
                         }
+                        buttonBottomLine.snp.makeConstraints { (make) in
+                            make.height.equalTo(2.5)
+                            make.bottom.equalTo(btn)
+                            make.left.equalTo(btn)
+                            make.right.equalTo(btn)
+                        }
                     })
                 }else if index < titleArray.count - 1 {
-                    btn.bottomLine.alpha = 0
+                    //                    btn.bottomLine.alpha = 0
                     btn.snp.makeConstraints({ (make) in
                         make.left.equalToSuperview()
                         make.width.equalToSuperview()
@@ -177,7 +223,7 @@ class SlideSegmentSelector: UIView {
                         
                     })
                 } else {
-                    btn.bottomLine.alpha = 0
+                    //                    btn.bottomLine.alpha = 0
                     btn.snp.makeConstraints({ (make) in
                         make.top.equalTo((btnArray.last?.snp.bottom)!)
                         make.width.equalToSuperview()
@@ -199,12 +245,11 @@ class SlideSegmentSelector: UIView {
     func clicked(btn:CustomSegmentButton) {
         currentSegment = btn.index
     }
-
+    
 }
 
 class CustomSegmentButton: UIButton {
     
-    var bottomLine = UIView()
     var index = 0
     var lblTitle = UILabel()
     
@@ -215,15 +260,6 @@ class CustomSegmentButton: UIButton {
         addSubview(lblTitle)
         lblTitle.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
-        }
-        bottomLine.frame = CGRect.init(x: 0, y: self.frame.height - 2, width: self.frame.width, height: 2)
-        addSubview(bottomLine)
-        bottomLine.backgroundColor = .yellow
-        bottomLine.snp.makeConstraints { (make) in
-            make.height.equalTo(2.5)
-            make.bottom.equalToSuperview()
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
         }
     }
     

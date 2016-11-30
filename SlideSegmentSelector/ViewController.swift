@@ -18,7 +18,7 @@ class ViewController: UIViewController {
             print("clicked:\(num)")
         }
         
-        let segment1 = SlideSegmentSelector.init(singlePage: true,  length: 180, direction: .horizontal,do: doSomething)
+        let segment1 = SlideSegmentSelector.init(singlePage: true,  length: 180, withAnimate: true,direction: .horizontal,doClosure: doSomething)
         segment1.backgroundColor = .lightGray
         view.addSubview(segment1)
         segment1.snp.makeConstraints { (make) in
@@ -29,7 +29,7 @@ class ViewController: UIViewController {
         }
         segment1.titleArray = ["1","2","3","4"]
         
-        let segment2 = SlideSegmentSelector.init(singlePage: false, length: 180, direction: .horizontal,do: doSomething)
+        let segment2 = SlideSegmentSelector.init(singlePage: false, length: 180, withAnimate: false, direction: .horizontal,doClosure: doSomething)
         
         segment2.backgroundColor = .lightGray
         view.addSubview(segment2)
@@ -41,7 +41,7 @@ class ViewController: UIViewController {
         }
         segment2.titleArray = ["1","2","3","4"]
         
-        let segment3 = SlideSegmentSelector.init(singlePage: true,  length: 180, direction: .vertical,do: doSomething)
+        let segment3 = SlideSegmentSelector.init(singlePage: true,  length: 180, withAnimate: true, direction: .vertical,doClosure: doSomething)
         segment3.backgroundColor = .lightGray
         view.addSubview(segment3)
         segment3.snp.makeConstraints { (make) in
@@ -52,7 +52,7 @@ class ViewController: UIViewController {
         }
         segment3.titleArray = ["1","2","3","4"]
         
-        let segment4 = SlideSegmentSelector.init(singlePage: false, length: 180, direction: .vertical,do: doSomething)
+        let segment4 = SlideSegmentSelector.init(singlePage: false, length: 180, withAnimate: true, direction: .vertical,doClosure: doSomething)
         
         segment4.backgroundColor = .lightGray
         view.addSubview(segment4)
