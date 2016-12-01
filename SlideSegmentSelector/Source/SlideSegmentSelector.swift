@@ -39,39 +39,24 @@ class SlideSegmentSelector: UIView {
             if currentSegment == oldValue {
                 return
             }
-            
+            self.buttonBottomLine.snp.remakeConstraints { (make) in
+                make.height.equalTo(2.5)
+                make.bottom.equalTo(self.btnArray[self.currentSegment])
+                make.left.equalTo(self.btnArray[self.currentSegment])
+                make.right.equalTo(self.btnArray[self.currentSegment])
+            }
             if withAnimate {
                 UIView.animate(withDuration: 0.3, animations: {
-                    self.buttonBottomLine.snp.remakeConstraints { (make) in
-                        make.height.equalTo(2.5)
-                        make.bottom.equalTo(self.btnArray[self.currentSegment])
-                        make.left.equalTo(self.btnArray[self.currentSegment])
-                        make.right.equalTo(self.btnArray[self.currentSegment])
-                    }
                     self.layoutIfNeeded()
                 })
-            } else {
-                self.buttonBottomLine.snp.remakeConstraints { (make) in
-                    make.height.equalTo(2.5)
-                    make.bottom.equalTo(self.btnArray[self.currentSegment])
-                    make.left.equalTo(self.btnArray[self.currentSegment])
-                    make.right.equalTo(self.btnArray[self.currentSegment])
-                }
             }
-            
-            
             for button in self.btnArray {
                 if button.index == self.currentSegment {
-                    //                        button.bottomLine.alpha = 0
                     button.lblTitle.textColor = .yellow
                 } else {
-                    //                        button.bottomLine.alpha = 0
                     button.lblTitle.textColor = .gray
                 }
-                
             }
-            
-            
         }
     }
     
@@ -114,6 +99,8 @@ class SlideSegmentSelector: UIView {
         var length:CGFloat = 1
         if titleArray.count != 0 {
             length = self.frame.width / CGFloat(titleArray.count)
+        } else {
+            return
         }
         
         if !allInSinglePage {
