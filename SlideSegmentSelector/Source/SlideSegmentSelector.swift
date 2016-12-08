@@ -27,6 +27,9 @@ class SlideSegmentSelector: UIView {
     
     var titleArray = Array<String>() {
         didSet {
+            for btn in btnArray {
+                btn.removeFromSuperview()
+            }
             btnArray = Array<CustomSegmentButton>()
             setUI()
         }
@@ -53,6 +56,12 @@ class SlideSegmentSelector: UIView {
             for button in self.btnArray {
                 if button.index == self.currentSegment {
                     button.lblTitle.textColor = .yellow
+                    if self.direction = .horizontal {
+                    self.scrollView.contentSize.height = self.frame.height
+                    } else {
+                        self.scrollView.contentSize.width = self.frame.width
+                    }
+                    self.scrollView.scrollRectToVisible(button.frame, animated: true)
                 } else {
                     button.lblTitle.textColor = .gray
                 }
