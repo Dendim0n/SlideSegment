@@ -56,7 +56,7 @@ class SlideSegmentSelector: UIView {
             for button in self.btnArray {
                 if button.index == self.currentSegment {
                     button.lblTitle.textColor = .yellow
-                    if self.direction = .horizontal {
+                    if self.direction == .horizontal {
                     self.scrollView.contentSize.height = self.frame.height
                     } else {
                         self.scrollView.contentSize.width = self.frame.width
@@ -108,7 +108,9 @@ class SlideSegmentSelector: UIView {
         var length:CGFloat = 1
         if titleArray.count != 0 {
             length = self.frame.width / CGFloat(titleArray.count)
+            buttonBottomLine.alpha = 1
         } else {
+            buttonBottomLine.alpha = 0
             return
         }
         
